@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>Add a default marker</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+  body { margin: 0; padding: 0; }
+  #map { position: absolute; top: 0; bottom: 0; width: 100%; height: 80%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="images"></div>
+
+<script>
+
+// get token at https://account.mapbox.com
+mapboxgl.accessToken = 'pk.eyJ1Ijoic29mdGV4cGVyaW1lbnQiLCJhIjoiY2tjMngyZm9rMDFvajJzczJ3aWo0bnh6aiJ9.Bc_qK9Xf8SFBXkFM_x2gpg';
+
+// create map
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-71.091761, 42.359074],
+    zoom: 15
+});
+
+
+async function getFlickrData(){
+	var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=4f145bca7bc87d6287f1caab430a29f9';
+
+	var tags = '&per_page=250';
+	tags += '&bbox=-71.097620,42.354970,-71.084316,42.363310';
+	tags += '&format=json';
+	tags += '&nojsoncallback=1';
+	tags += '&tags=mit';
+	tags += '&accuracy=6';
+	tags += '&extras=description,+date_taken,date_upload,owner_name,geo,url_s';
+	url = url + tags;
+
+	var res = await fetch(url);
+	var json = await res.json();
+    return json;
+}
+
+
+// called after document & libraries load
+async function init(){
+
+	var data = await getFlickrData();
+    console.log(data)
+
+    // -------------------------------------------------
+    //   YOUR CODE
+    //     Loop through data.
+    //     Add markers to map.
+    //     Add photos to page.
+    // -------------------------------------------------
+}
+
+window.onload = init;
+
+</script>
+</html>
